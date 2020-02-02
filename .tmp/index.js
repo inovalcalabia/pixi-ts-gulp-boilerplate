@@ -20,7 +20,6 @@ var Main = /** @class */ (function () {
         var _this = this;
         var loader = PIXI.Loader.shared;
         loader.add("rabbit", this.rabbit);
-        loader.add("spriteExample", "./spritesData.json"); // example of loading spriteSheet
         loader.on("complete", function () {
             _this.onAssetsLoaded();
         });
@@ -32,11 +31,7 @@ var Main = /** @class */ (function () {
         var stage = this.app.stage;
         var bunny = this.getBunny();
         bunny.position.set(Main.GAME_WIDTH / 2, Main.GAME_HEIGHT / 2);
-        var birdFromSprite = this.getBird();
-        birdFromSprite.anchor.set(0.5, 0.5);
-        birdFromSprite.position.set(Main.GAME_WIDTH / 2, Main.GAME_HEIGHT / 2 + bunny.height);
         stage.addChild(bunny);
-        stage.addChild(birdFromSprite);
         this.app.ticker.add(function () {
             bunny.rotation += 0.05;
         });
@@ -48,18 +43,18 @@ var Main = /** @class */ (function () {
             height: Main.GAME_HEIGHT,
         });
         document.body.appendChild(this.app.view);
-        this.app.renderer.resize(window.innerWidth, window.innerHeight);
-        this.app.stage.scale.x = window.innerWidth / Main.GAME_WIDTH;
-        this.app.stage.scale.y = window.innerHeight / Main.GAME_HEIGHT;
+        var ratio = Math.min(window.innerWidth / Main.GAME_WIDTH, window.innerHeight / Main.GAME_HEIGHT);
+        this.app.stage.scale.x = this.app.stage.scale.y = ratio;
+        this.app.renderer.resize(Math.ceil(Main.GAME_WIDTH * ratio), Math.ceil(Main.GAME_HEIGHT * ratio));
         window.addEventListener("resize", this.onResize.bind(this));
     };
     Main.prototype.onResize = function () {
         if (!this.app) {
             return;
         }
-        this.app.renderer.resize(window.innerWidth, window.innerHeight);
-        this.app.stage.scale.x = window.innerWidth / Main.GAME_WIDTH;
-        this.app.stage.scale.y = window.innerHeight / Main.GAME_HEIGHT;
+        var ratio = Math.min(window.innerWidth / Main.GAME_WIDTH, window.innerHeight / Main.GAME_HEIGHT);
+        this.app.stage.scale.x = this.app.stage.scale.y = ratio;
+        this.app.renderer.resize(Math.ceil(Main.GAME_WIDTH * ratio), Math.ceil(Main.GAME_HEIGHT * ratio));
     };
     Main.prototype.getBunny = function () {
         var bunnyRotationPoint = {
@@ -71,20 +66,8 @@ var Main = /** @class */ (function () {
         bunny.scale.set(2, 2);
         return bunny;
     };
-    Main.prototype.getBird = function () {
-        var bird = new PIXI.AnimatedSprite([
-            PIXI.Texture.from("birdUp.png"),
-            PIXI.Texture.from("birdMiddle.png"),
-            PIXI.Texture.from("birdDown.png"),
-        ]);
-        bird.loop = true;
-        bird.animationSpeed = 0.1;
-        bird.play();
-        bird.scale.set(3);
-        return bird;
-    };
-    Main.GAME_WIDTH = 800;
-    Main.GAME_HEIGHT = 600;
+    Main.GAME_WIDTH = 1280;
+    Main.GAME_HEIGHT = 720;
     return Main;
 }());
 new Main();
