@@ -5,5 +5,13 @@
 ```sh
 git clone https://github.com/inovalcalabia/pixi-ts-gulp-boilerplate.git
 npm install
-gulp serve-watch
+gulp dev
+```
+
+## How to build with gulp
+
+```sh
+git clone https://github.com/inovalcalabia/pixi-ts-gulp-boilerplate.git
+npm install
+gulp build
 ```
