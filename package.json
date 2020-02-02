@@ -20,7 +20,7 @@
     "vinyl-source-stream": "^2.0.0"
   },
   "devDependencies": {
-    "typescript": "^3.7.5"
+    "typescript": "^3.7.5",
   },
   "scripts": {
     "dev": "parcel ./src/index.html --port=8080 --open ",
